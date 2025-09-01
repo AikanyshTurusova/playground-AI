@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .test-section { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .video-item { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        .thumbnail { max-width: 200px; height: auto; border: 1px solid #ccc; }
+        .error { color: red; background: #ffe6e6; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .success { color: green; background: #e6ffe6; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .log { background: #f0f0f0; padding: 10px; border-radius: 4px; margin: 10px 0; font-family: monospace; font-size: 12px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>YouTube Thumbnail Test</h1>
+    
+    <div class="test-section">
+        <h2>Test YouTube API</h2>
+        <button onclick="testTrendingVideos()">Test Trending Videos</button>
+        <button onclick="testSearchVideos()">Test Search Videos</button>
+        <button onclick="clearLogs()">Clear Logs</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Results</h2>
+        <div id="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Console Logs</h2>
+        <div id="logs"></div>
+    </div>
+
+    <script>
+        const API_KEY = 'AIzaSyDwaAgTO_URGb3ZekOWn6_BXo1cJzzXm2o';
+        const API_BASE = 'https://www.googleapis.com/youtube/v3';
+
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const logDiv = document.createElement('div');
+            logDiv.className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'log';
+            logDiv.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logsDiv.appendChild(logDiv);
+            
+            // Also log to browser console
+            if (type === 'error') {
+                console.error(message);
+            } else if (type === 'success') {
+                console.log(message);
+            } else {
+                console.log(message);
+            }
+        }
+
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+            document.getElementById('results').innerHTML = '';
+        }
+
+        async function testTrendingVideos() {
+            try {
+                log('🔥 Testing trending videos...', 'success');
+                
+                const response = await fetch(`${API_BASE}/videos?part=snippet&chart=mostPopular&maxResults=3&key=${API_KEY}`);
+                
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                log(`✅ Received ${data.items?.length || 0} trending videos`, 'success');
+                
+                displayVideos(data.items, 'Trending Videos');
+                
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSearchVideos() {
+            try {
+                log('🔍 Testing video search...', 'success');
+                
+                const response = await fetch(`${API_BASE}/search?part=snippet&q=technology&type=video&maxResults=3&key=${API_KEY}`);
+                
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                log(`✅ Received ${data.items?.length || 0} search results`, 'success');
+                
+                displayVideos(data.items, 'Search Results');
+                
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        function displayVideos(videos, title) {
+            const resultsDiv = document.getElementById('results');
+            const titleDiv = document.createElement('h3');
+            titleDiv.textContent = title;
+            resultsDiv.appendChild(titleDiv);
+            
+            videos.forEach((video, index) => {
+                const videoDiv = document.createElement('div');
+                videoDiv.className = 'video-item';
+                
+                const videoId = video.id.videoId || video.id;
+                const snippet = video.snippet;
+                
+                log(`📹 Processing video ${index + 1}: ${videoId}`, 'info');
+                log(`📝 Title: ${snippet.title}`, 'info');
+                log(`🖼️ Available thumbnails:`, 'info');
+                
+                if (snippet.thumbnails) {
+                    Object.keys(snippet.thumbnails).forEach(key => {
+                        const thumb = snippet.thumbnails[key];
+                        log(`   ${key}: ${thumb.url} (${thumb.width}x${thumb.height})`, 'info');
+                    });
+                } else {
+                    log(`   ⚠️ No thumbnails object found`, 'error');
+                }
+                
+                // Try to get the best thumbnail
+                let thumbnailUrl = '';
+                if (snippet.thumbnails?.maxres?.url) {
+                    thumbnailUrl = snippet.thumbnails.maxres.url;
+                } else if (snippet.thumbnails?.high?.url) {
+                    thumbnailUrl = snippet.thumbnails.high.url;
+                } else if (snippet.thumbnails?.medium?.url) {
+                    thumbnailUrl = snippet.thumbnails.medium.url;
+                } else if (snippet.thumbnails?.default?.url) {
+                    thumbnailUrl = snippet.thumbnails.default.url;
+                }
+                
+                if (thumbnailUrl) {
+                    log(`✅ Selected thumbnail: ${thumbnailUrl}`, 'success');
+                } else {
+                    log(`❌ No thumbnail URL found!`, 'error');
+                }
+                
+                videoDiv.innerHTML = `
+                    <h4>${snippet.title}</h4>
+                    ${thumbnailUrl ? `<img src="${thumbnailUrl}" alt="Thumbnail" class="thumbnail" onerror="this.style.display='none'; console.error('Failed to load thumbnail:', '${thumbnailUrl}');">` : '<p style="color: red;">No thumbnail available</p>'}
+                    <p><strong>Channel:</strong> ${snippet.channelTitle}</p>
+                    <p><strong>Published:</strong> ${new Date(snippet.publishedAt).toLocaleDateString()}</p>
+                    <p><strong>Video ID:</strong> ${videoId}</p>
+                    <p><strong>Thumbnail URL:</strong> ${thumbnailUrl || 'None'}</p>
+                `;
+                
+                resultsDiv.appendChild(videoDiv);
+            });
+        }
+
+        // Test on page load
+        window.onload = () => {
+            log('🚀 YouTube Thumbnail Test loaded. Click buttons to test.', 'success');
+        };
+    </script>
+</body>
+</html>

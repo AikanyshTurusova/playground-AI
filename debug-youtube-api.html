@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube API Test - Enhanced</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .video { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: white; }
+        .thumbnail { max-width: 200px; height: auto; border: 1px solid #ccc; }
+        .search-box { margin: 20px 0; }
+        input[type="text"] { padding: 10px; width: 300px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 10px 20px; background: #ff0000; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #cc0000; }
+        .error { color: red; background: #ffe6e6; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .success { color: green; background: #e6ffe6; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .debug { background: #f0f0f0; padding: 10px; border-radius: 4px; margin: 10px 0; font-family: monospace; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>YouTube API Test - Enhanced</h1>
+    
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search for videos...">
+        <button onclick="searchVideos()">Search</button>
+        <button onclick="loadTrendingVideos()">Load Trending</button>
+    </div>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_KEY = 'AIzaSyDwaAgTO_URGb3ZekOWn6_BXo1cJzzXm2o';
+        const API_BASE = 'https://www.googleapis.com/youtube/v3';
+
+        function log(message, type = 'info') {
+            const resultsDiv = document.getElementById('results');
+            const logDiv = document.createElement('div');
+            logDiv.className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'debug';
+            logDiv.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            resultsDiv.appendChild(logDiv);
+        }
+
+        function testThumbnail(url, videoId) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    log(`✅ Thumbnail loaded successfully for video ${videoId}: ${url}`, 'success');
+                    resolve(true);
+                };
+                img.onerror = () => {
+                    log(`❌ Thumbnail failed to load for video ${videoId}: ${url}`, 'error');
+                    resolve(false);
+                };
+                img.src = url;
+            });
+        }
+
+        async function searchVideos() {
+            const query = document.getElementById('searchInput').value;
+            if (!query) return;
+
+            try {
+                log(`🔍 Searching for: "${query}"`);
+                const response = await fetch(`${API_BASE}/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=5&key=${API_KEY}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    log(`Error: ${data.error.message}`, 'error');
+                    return;
+                }
+
+                log(`Found ${data.items.length} videos`);
+                await displayResults(data.items, 'Search Results');
+            } catch (error) {
+                log(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function displayResults(videos, title) {
+            const resultsDiv = document.getElementById('results');
+            const titleDiv = document.createElement('h2');
+            titleDiv.textContent = title;
+            resultsDiv.appendChild(titleDiv);
+            
+            for (const video of videos) {
+                const videoDiv = document.createElement('div');
+                videoDiv.className = 'video';
+                
+                const videoId = video.id.videoId || video.id;
+                const thumbnailUrl = video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url;
+                
+                log(`Processing video: ${videoId}`);
+                log(`Thumbnail URL: ${thumbnailUrl}`);
+                
+                // Test thumbnail loading
+                if (thumbnailUrl) {
+                    const thumbnailLoaded = await testThumbnail(thumbnailUrl, videoId);
+                    if (!thumbnailLoaded) {
+                        log(`⚠️ Using fallback for video ${videoId}`, 'error');
+                    }
+                } else {
+                    log(`⚠️ No thumbnail URL found for video ${videoId}`, 'error');
+                }
+                
+                videoDiv.innerHTML = `
+                    <h3>${video.snippet.title}</h3>
+                    <img src="${thumbnailUrl || 'https://via.placeholder.com/200x150/ff0000/ffffff?text=No+Thumbnail'}" 
+                         alt="Thumbnail" class="thumbnail" 
+                         onerror="this.src='https://via.placeholder.com/200x150/ff0000/ffffff?text=Error+Loading'">
+                    <p><strong>Channel:</strong> ${video.snippet.channelTitle}</p>
+                    <p><strong>Published:</strong> ${new Date(video.snippet.publishedAt).toLocaleDateString()}</p>
+                    <p>${video.snippet.description}</p>
+                    <p><strong>Thumbnail URLs:</strong></p>
+                    <ul>
+                        <li>Maxres: ${video.snippet.thumbnails.maxres?.url || 'Not available'}</li>
+                        <li>High: ${video.snippet.thumbnails.high?.url || 'Not available'}</li>
+                        <li>Medium: ${video.snippet.thumbnails.medium?.url || 'Not available'}</li>
+                        <li>Default: ${video.snippet.thumbnails.default?.url || 'Not available'}</li>
+                    </ul>
+                    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">Watch on YouTube</a>
+                `;
+                resultsDiv.appendChild(videoDiv);
+            }
+        }
+
+        async function loadTrendingVideos() {
+            try {
+                log('🔥 Loading trending videos...');
+                const response = await fetch(`${API_BASE}/videos?part=snippet&chart=mostPopular&maxResults=5&key=${API_KEY}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    log(`Error: ${data.error.message}`, 'error');
+                    return;
+                }
+
+                log(`Found ${data.items.length} trending videos`);
+                await displayResults(data.items, 'Trending Videos');
+            } catch (error) {
+                log(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Load trending videos when page loads
+        window.onload = loadTrendingVideos;
+    </script>
+</body>
+</html>

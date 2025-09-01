@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .video { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .thumbnail { max-width: 200px; height: auto; }
+        .search-box { margin: 20px 0; }
+        input[type="text"] { padding: 10px; width: 300px; margin-right: 10px; }
+        button { padding: 10px 20px; background: #ff0000; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #cc0000; }
+    </style>
+</head>
+<body>
+    <h1>YouTube API Test</h1>
+    
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search for videos...">
+        <button onclick="searchVideos()">Search</button>
+    </div>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_KEY = 'AIzaSyDwaAgTO_URGb3ZekOWn6_BXo1cJzzXm2o';
+        const API_BASE = 'https://www.googleapis.com/youtube/v3';
+
+        async function searchVideos() {
+            const query = document.getElementById('searchInput').value;
+            if (!query) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=5&key=${API_KEY}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('results').innerHTML = `<p style="color: red;">Error: ${data.error.message}</p>`;
+                    return;
+                }
+
+                displayResults(data.items);
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+
+        function displayResults(videos) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>Search Results:</h2>';
+            
+            videos.forEach(video => {
+                const videoDiv = document.createElement('div');
+                videoDiv.className = 'video';
+                videoDiv.innerHTML = `
+                    <h3>${video.snippet.title}</h3>
+                    <img src="${video.snippet.thumbnails.medium.url}" alt="Thumbnail" class="thumbnail">
+                    <p><strong>Channel:</strong> ${video.snippet.channelTitle}</p>
+                    <p><strong>Published:</strong> ${new Date(video.snippet.publishedAt).toLocaleDateString()}</p>
+                    <p>${video.snippet.description}</p>
+                    <a href="https://www.youtube.com/watch?v=${video.id.videoId}" target="_blank">Watch on YouTube</a>
+                `;
+                resultsDiv.appendChild(videoDiv);
+            });
+        }
+
+        // Test trending videos on page load
+        async function loadTrendingVideos() {
+            try {
+                const response = await fetch(`${API_BASE}/videos?part=snippet&chart=mostPopular&maxResults=5&key=${API_KEY}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('results').innerHTML = `<p style="color: red;">Error: ${data.error.message}</p>`;
+                    return;
+                }
+
+                document.getElementById('results').innerHTML = '<h2>Trending Videos:</h2>';
+                displayResults(data.items);
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Load trending videos when page loads
+        window.onload = loadTrendingVideos;
+    </script>
+</body>
+</html>
