@@ -100,7 +100,7 @@ export default function MotivationalQuotes() {
           }`}
         >
           <blockquote className="text-2xl md:text-3xl font-medium mb-4 leading-relaxed">
-            "{currentQuote.text}"
+            &ldquo;{currentQuote.text}&rdquo;
           </blockquote>
           
           <cite className="text-lg font-semibold not-italic block mb-4">

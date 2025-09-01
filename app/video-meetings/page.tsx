@@ -16,8 +16,14 @@ interface GoogleTokens {
 interface GoogleMeeting {
   id: string;
   summary: string;
-  start: any;
-  end: any;
+  start: {
+    dateTime: string;
+    timeZone: string;
+  };
+  end: {
+    dateTime: string;
+    timeZone: string;
+  };
   meetLink: string;
   calendarLink: string;
   hangoutLink: string;

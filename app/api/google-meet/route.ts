@@ -11,6 +11,15 @@ const oauth2Client = new google.auth.OAuth2(
 // Google Calendar API instance
 const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 
+interface MeetingData {
+  summary: string;
+  description?: string;
+  startTime: string;
+  endTime: string;
+  attendees?: string[];
+  timeZone?: string;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { action, accessToken, meetingData } = await request.json();
@@ -42,7 +51,7 @@ export async function POST(request: NextRequest) {
 }
 
 // Create a Google Meet meeting
-async function createGoogleMeet(meetingData: any) {
+async function createGoogleMeet(meetingData: MeetingData) {
   try {
     const {
       summary,
