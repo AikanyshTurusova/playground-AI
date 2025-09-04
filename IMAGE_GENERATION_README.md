@@ -247,3 +247,5 @@ The feature is fully integrated into your library, chat assistant, and dashboard
 
 **💡 Pro Tip**: Start with simple prompts and gradually add more detail. The AI is very good at understanding context, so be descriptive about what you want to see!
 
+
+

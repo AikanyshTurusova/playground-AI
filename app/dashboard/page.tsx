@@ -29,89 +29,85 @@ export default async function DashboardPage() {
   }).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Navigation */}
       <Navigation />
       
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-blue-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-gray-900">
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Playground
-                </span>
-              </h1>
-              <span className="text-gray-500">Dashboard</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                Welcome back, {user.firstName || user.emailAddresses[0]?.emailAddress}
+              <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+              <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
               </span>
-              <Link
-                href="/"
-                className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                Home
-              </Link>
             </div>
+
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
         {/* Motivational Quotes Section */}
         <div className="mb-8">
           <MotivationalQuotes />
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <span className="text-2xl">📝</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-600 mb-1">Total Notes</p>
+                <p className="text-3xl font-bold text-slate-800">{totalNotes}</p>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Notes</p>
-                <p className="text-2xl font-bold text-gray-900">{totalNotes}</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <div className="flex items-center">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <span className="text-2xl">💡</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Business Ideas</p>
-                <p className="text-2xl font-bold text-gray-900">{totalIdeas}</p>
+              <div className="w-12 h-12 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
               </div>
             </div>
           </div>
           
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <div className="flex items-center">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <span className="text-2xl">📚</span>
+          <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-600 mb-1">Business Ideas</p>
+                <p className="text-3xl font-bold text-slate-800">{totalIdeas}</p>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Library Items</p>
-                <p className="text-2xl font-bold text-gray-900">{totalLibraryItems}</p>
+              <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
               </div>
             </div>
           </div>
           
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <div className="flex items-center">
-              <div className="p-2 bg-orange-100 rounded-lg">
-                <span className="text-2xl">📊</span>
+          <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-600 mb-1">Library Items</p>
+                <p className="text-3xl font-bold text-slate-800">{totalLibraryItems}</p>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">This Week</p>
-                <p className="text-2xl font-bold text-gray-900">{thisWeekCount}</p>
+              <div className="w-12 h-12 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-600 mb-1">This Week</p>
+                <p className="text-3xl font-bold text-slate-800">{thisWeekCount}</p>
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
               </div>
             </div>
           </div>
@@ -119,170 +115,191 @@ export default async function DashboardPage() {
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Quick Actions */}
+          {/* Left Column - Recent Activity & AI Help */}
           <div className="lg:col-span-1">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-              <div className="space-y-3">
-                <Link
-                  href="/notes/new"
-                  className="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group"
-                >
-                  <span className="text-xl mr-3">📝</span>
-                  <span className="group-hover:text-blue-600">Create Note</span>
-                </Link>
-                <Link
-                  href="/ideas/new"
-                  className="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group"
-                >
-                  <span className="text-xl mr-3">💡</span>
-                  <span className="group-hover:text-blue-600">Add Business Idea</span>
-                </Link>
-                <Link
-                  href="/library/new"
-                  className="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group"
-                >
-                  <span className="text-xl mr-3">📚</span>
-                  <span className="group-hover:text-blue-600">Add to Library</span>
-                </Link>
-                <Link
-                  href="/videos"
-                  className="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group"
-                >
-                  <span className="text-xl mr-3">🎥</span>
-                  <span className="group-hover:text-blue-600">Browse Videos</span>
-                </Link>
-                <Link
-                  href="/ai-tools"
-                  className="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group"
-                >
-                  <span className="text-xl mr-3">🚀</span>
-                  <span className="group-hover:text-blue-600">AI Tools Hub</span>
-                </Link>
-                <Link
-                  href="/video-meetings"
-                  className="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group"
-                >
-                  <span className="text-xl mr-3">🎥</span>
-                  <span className="group-hover:text-blue-600">Video Meetings</span>
-                </Link>
+            <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-slate-200 mb-6">
+              <h3 className="text-lg font-semibold text-slate-800 mb-6">Recent Activity</h3>
+              <div className="space-y-4">
+                <div className="flex items-center p-3 bg-slate-50 rounded-lg">
+                  <div className="w-10 h-10 bg-gradient-to-r from-slate-800 to-slate-700 rounded-full flex items-center justify-center mr-3">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-slate-800">Welcome to PlayGround AI!</p>
+                    <p className="text-xs text-slate-500">Just now</p>
+                  </div>
+                </div>
+                <div className="text-center py-8 text-slate-500">
+                  <svg className="w-12 h-12 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  <p className="text-sm">No recent activity</p>
+                  <p className="text-xs text-slate-400">Start creating to see your activity here</p>
+                </div>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-              <div className="text-center py-8 text-gray-500">
-                <span className="text-4xl mb-2 block">📭</span>
-                <p>No recent activity</p>
-                <p className="text-sm">Start creating to see your activity here</p>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Need AI Help?</h3>
-              <p className="text-gray-600 mb-4 text-sm">
+            <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-emerald-600 p-6 rounded-2xl shadow-lg text-white">
+              <h3 className="text-lg font-semibold mb-4">AI Assistant</h3>
+              <p className="text-slate-200 mb-6 text-sm">
                 Get instant help with your ideas, writing, or research questions
               </p>
               <Link
                 href="/chat"
-                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
+                className="inline-flex items-center px-6 py-3 bg-white text-slate-800 text-sm font-medium rounded-xl hover:bg-slate-50 transition-all duration-200 shadow-lg"
               >
-                <span className="mr-2">🤖</span>
-                Chat with AI
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                Start Chat
               </Link>
             </div>
           </div>
 
           {/* Right Column - Main Content */}
           <div className="lg:col-span-2">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Getting Started</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <h4 className="font-medium text-blue-900 mb-2">Create Your First Note</h4>
-                  <p className="text-sm text-blue-700 mb-3">
-                    Start organizing your thoughts with a personal note
-                  </p>
-                  <Link
-                    href="/notes/new"
-                    className="inline-flex items-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Create Note
-                  </Link>
-                </div>
+            {/* Quick Actions Grid */}
+            <div className="bg-gradient-to-br from-slate-50 to-emerald-50/50 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-slate-200 mb-8">
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-2xl font-bold text-slate-800">Quick Actions</h3>
+                <div className="w-12 h-1 bg-gradient-to-r from-slate-800 to-emerald-500 rounded-full"></div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Link
+                  href="/notes/new"
+                  className="group relative p-6 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-800 group-hover:text-slate-600 transition-colors">Create Note</h4>
+                      <p className="text-sm text-slate-600">Organize your thoughts</p>
+                    </div>
+                  </div>
+                </Link>
                 
-                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                  <h4 className="font-medium text-green-900 mb-2">Capture Business Ideas</h4>
-                  <p className="text-sm text-green-700 mb-3">
-                    Turn your ideas into actionable business plans
-                  </p>
-                  <Link
-                    href="/ideas/new"
-                    className="inline-flex items-center px-3 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors"
-                  >
-                    Add Idea
-                  </Link>
-                </div>
+                <Link
+                  href="/ideas/new"
+                  className="group relative p-6 bg-white rounded-2xl border border-blue-100 hover:border-blue-200 hover:shadow-xl transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-800 group-hover:text-slate-600 transition-colors">Add Business Idea</h4>
+                      <p className="text-sm text-slate-600">Capture your ideas</p>
+                    </div>
+                  </div>
+                </Link>
                 
-                <div className="p-4 bg-red-50 rounded-lg border border-red-200">
-                  <h4 className="font-medium text-red-900 mb-2">Browse Videos</h4>
-                  <p className="text-sm text-red-700 mb-3">
-                    Discover and watch amazing YouTube videos
-                  </p>
-                  <Link
-                    href="/videos"
-                    className="inline-flex items-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors"
-                  >
-                    Browse Videos
-                  </Link>
-                </div>
+                <Link
+                  href="/videos"
+                  className="group relative p-6 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-800 group-hover:text-slate-600 transition-colors">Browse Videos</h4>
+                      <p className="text-sm text-slate-600">Discover content</p>
+                    </div>
+                  </div>
+                </Link>
                 
-                <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
-                  <h4 className="font-medium text-indigo-900 mb-2">AI Tools Hub</h4>
-                  <p className="text-sm text-indigo-700 mb-3">
-                    Access all AI tools: chat, image generation, video tools, and more
-                  </p>
-                  <Link
-                    href="/ai-tools"
-                    className="inline-flex items-center px-3 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors"
-                  >
-                    Explore AI Tools
-                  </Link>
-                </div>
+                <Link
+                  href="/ai-tools"
+                  className="group relative p-6 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-800 group-hover:text-slate-600 transition-colors">AI Tools Hub</h4>
+                      <p className="text-sm text-slate-600">Explore AI features</p>
+                    </div>
+                  </div>
+                </Link>
                 
-                <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-                  <h4 className="font-medium text-purple-900 mb-2">Video Meetings</h4>
-                  <p className="text-sm text-purple-700 mb-3">
-                    Host and join video meetings with your team
-                  </p>
-                  <Link
-                    href="/video-meetings"
-                    className="inline-flex items-center px-3 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors"
-                  >
-                    Start Meeting
-                  </Link>
-                </div>
+                <Link
+                  href="/video-meetings"
+                  className="group relative p-6 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-800 group-hover:text-slate-600 transition-colors">Video Meetings</h4>
+                      <p className="text-sm text-slate-600">Start meetings</p>
+                    </div>
+                  </div>
+                </Link>
+                
+                <Link
+                  href="/library/new"
+                  className="group relative p-6 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-800 group-hover:text-slate-600 transition-colors">Add to Library</h4>
+                      <p className="text-sm text-slate-600">Save resources</p>
+                    </div>
+                  </div>
+                </Link>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Workspace</h3>
-              <div className="text-center py-12 text-gray-500">
-                <span className="text-6xl mb-4 block">🚀</span>
-                <h4 className="text-xl font-medium text-gray-700 mb-2">Ready to get started?</h4>
-                <p className="text-gray-600 mb-6">
+            {/* Your Workspace */}
+            <div className="bg-gradient-to-br from-slate-50 to-emerald-50 p-8 rounded-2xl shadow-lg border border-slate-200">
+              <h3 className="text-lg font-semibold text-slate-800 mb-6">Your Workspace</h3>
+              <div className="text-center py-8">
+                <div className="w-20 h-20 bg-gradient-to-r from-slate-800 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h4 className="text-xl font-semibold text-slate-800 mb-3">Ready to get started?</h4>
+                <p className="text-slate-600 mb-8 max-w-md mx-auto">
                   Your personal workspace is ready. Start creating notes, capturing ideas, and building your knowledge library.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     href="/notes"
-                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                    className="px-8 py-3 bg-gradient-to-r from-slate-800 to-slate-700 text-white font-semibold rounded-xl hover:from-slate-700 hover:to-slate-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                   >
                     Explore Notes
                   </Link>
                   <Link
                     href="/ideas"
-                    className="px-6 py-3 border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-colors"
+                    className="px-8 py-3 border-2 border-emerald-300 text-slate-700 font-semibold rounded-xl hover:border-emerald-400 hover:bg-white transition-all duration-200"
                   >
                     View Ideas
                   </Link>

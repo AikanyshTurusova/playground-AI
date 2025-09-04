@@ -26,7 +26,7 @@ export default function MotivationalQuotes() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: "Generate a motivational quote that is inspiring, authentic, and suitable for a productivity dashboard. Include the quote text, a realistic author name, and a motivational category."
+          prompt: "Generate a motivational quote that is inspiring, authentic, and suitable for a productivity dashboard."
         })
       });
 
@@ -69,7 +69,7 @@ export default function MotivationalQuotes() {
         generateAIQuote();
         setIsVisible(true);
       }, 500);
-    }, 30000); // 30 seconds
+    }, 15000); // 15 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -92,43 +92,44 @@ export default function MotivationalQuotes() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-white shadow-lg relative">
-      <div className="text-center">
+    <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-emerald-600 rounded-2xl p-8 text-white shadow-2xl relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent"></div>
+      <div className="relative z-10 text-center">
         <div 
-          className={`transition-opacity duration-300 ease-in-out ${
-            isVisible ? 'opacity-100' : 'opacity-0'
+          className={`transition-all duration-500 ease-in-out ${
+            isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
           }`}
         >
-          <blockquote className="text-2xl md:text-3xl font-medium mb-4 leading-relaxed">
+          <blockquote className="text-2xl md:text-3xl font-semibold mb-6 leading-relaxed">
             &ldquo;{currentQuote.text}&rdquo;
           </blockquote>
           
-          <cite className="text-lg font-semibold not-italic block mb-4">
+          <cite className="text-lg font-medium not-italic block mb-6">
             — {currentQuote.author}
           </cite>
           
           <div className="mb-4">
-            <span className="inline-block px-3 py-1 bg-white bg-opacity-20 rounded-full text-sm font-medium">
+            <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium border border-white/30 text-white">
               {currentQuote.category}
             </span>
           </div>
           
           {isLoading && (
-            <div className="mt-2">
-              <span className="text-sm text-white text-opacity-70">✨ AI Powered</span>
+            <div className="mt-3">
+              <span className="text-sm text-slate-200 bg-white/10 px-3 py-1 rounded-full">AI Powered</span>
             </div>
           )}
         </div>
       </div>
       
-      {/* Subtle Navigation Arrows */}
+      {/* Modern Navigation Arrows */}
       <button
         onClick={goToPreviousQuote}
         disabled={isLoading}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-white bg-opacity-10 rounded-full flex items-center justify-center hover:bg-opacity-20 transition-all duration-200 disabled:opacity-50"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-200 disabled:opacity-50 border border-white/30"
         aria-label="Generate new quote"
       >
-        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
@@ -136,10 +137,10 @@ export default function MotivationalQuotes() {
       <button
         onClick={goToNextQuote}
         disabled={isLoading}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-white bg-opacity-10 rounded-full flex items-center justify-center hover:bg-opacity-20 transition-all duration-200 disabled:opacity-50"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-200 disabled:opacity-50 border border-white/30"
         aria-label="Generate new quote"
       >
-        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>

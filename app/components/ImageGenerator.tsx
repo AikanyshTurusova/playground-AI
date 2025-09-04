@@ -125,26 +125,28 @@ export default function ImageGenerator({
   };
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden ${className}`}>
+    <div className={`bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden ${className}`}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4">
+      <div className="bg-gradient-to-r from-slate-800 to-emerald-600 text-white p-4">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-            <span className="text-lg">🎨</span>
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
           </div>
           <div>
             <h3 className="font-semibold">AI Image Generator</h3>
-            <p className="text-sm text-purple-100">Powered by DALL-E 3</p>
+            <p className="text-sm text-slate-200">Powered by DALL-E 3</p>
           </div>
         </div>
       </div>
 
       {/* Input Section */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-slate-200">
         <div className="space-y-4">
           {/* Prompt Input */}
           <div>
-            <label htmlFor="prompt" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="prompt" className="block text-sm font-medium text-slate-700 mb-2">
               Describe the image you want to create
             </label>
             <textarea
@@ -153,11 +155,11 @@ export default function ImageGenerator({
               onChange={(e) => setPrompt(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="A serene mountain landscape at sunset with a crystal clear lake reflecting the sky..."
-              className="w-full resize-none border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full resize-none border border-slate-300 rounded-lg px-3 py-2 text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
               rows={3}
               disabled={isGenerating}
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               Be descriptive and specific for better results. Press Enter to generate.
             </p>
           </div>
@@ -165,14 +167,14 @@ export default function ImageGenerator({
           {/* Options */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label htmlFor="size" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="size" className="block text-sm font-medium text-slate-700 mb-1">
                 Size
               </label>
               <select
                 id="size"
                 value={size}
                 onChange={(e) => setSize(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 disabled={isGenerating}
               >
                 <option value="1024x1024">Square (1024x1024)</option>
@@ -182,14 +184,14 @@ export default function ImageGenerator({
             </div>
 
             <div>
-              <label htmlFor="quality" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="quality" className="block text-sm font-medium text-slate-700 mb-1">
                 Quality
               </label>
               <select
                 id="quality"
                 value={quality}
                 onChange={(e) => setQuality(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 disabled={isGenerating}
               >
                 <option value="standard">Standard</option>
@@ -198,14 +200,14 @@ export default function ImageGenerator({
             </div>
 
             <div>
-              <label htmlFor="style" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="style" className="block text-sm font-medium text-slate-700 mb-1">
                 Style
               </label>
               <select
                 id="style"
                 value={style}
                 onChange={(e) => setStyle(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-800 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 disabled={isGenerating}
               >
                 <option value="vivid">Vivid</option>
@@ -218,7 +220,7 @@ export default function ImageGenerator({
           <button
             onClick={handleGenerateImage}
             disabled={!prompt.trim() || isGenerating}
-            className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 bg-gradient-to-r from-slate-800 to-emerald-600 text-white font-medium rounded-lg hover:from-slate-700 hover:to-emerald-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isGenerating ? (
               <div className="flex items-center justify-center space-x-2">
@@ -226,7 +228,12 @@ export default function ImageGenerator({
                 <span>Generating Image...</span>
               </div>
             ) : (
-              <span>🎨 Generate Image</span>
+              <div className="flex items-center justify-center space-x-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>Generate Image</span>
+              </div>
             )}
           </button>
         </div>
@@ -236,7 +243,9 @@ export default function ImageGenerator({
           <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-3">
             <div className="flex">
               <div className="flex-shrink-0">
-                <span className="text-red-400">⚠️</span>
+                <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
               </div>
               <div className="ml-3">
                 <p className="text-sm text-red-800">{error}</p>
@@ -249,10 +258,10 @@ export default function ImageGenerator({
       {/* Generated Images */}
       {showHistory && generatedImages.length > 0 && (
         <div className="p-4">
-          <h4 className="font-medium text-gray-900 mb-4">Generated Images</h4>
+          <h4 className="font-medium text-slate-800 mb-4">Generated Images</h4>
           <div className="space-y-4">
             {generatedImages.map((image) => (
-              <div key={image.id} className="border border-gray-200 rounded-lg p-4">
+              <div key={image.id} className="border border-slate-200 rounded-lg p-4 bg-slate-50">
                 <div className="flex flex-col lg:flex-row gap-4">
                   {/* Image */}
                   <div className="flex-shrink-0">
@@ -266,18 +275,18 @@ export default function ImageGenerator({
                   {/* Image Info */}
                   <div className="flex-1 space-y-3">
                     <div>
-                      <h5 className="font-medium text-gray-900">Original Prompt</h5>
-                      <p className="text-sm text-gray-600">{image.prompt}</p>
+                      <h5 className="font-medium text-slate-800">Original Prompt</h5>
+                      <p className="text-sm text-slate-600">{image.prompt}</p>
                     </div>
                     
                     {image.revisedPrompt && (
                       <div>
-                        <h5 className="font-medium text-gray-900">AI Refined Prompt</h5>
-                        <p className="text-sm text-gray-600">{image.revisedPrompt}</p>
+                        <h5 className="font-medium text-slate-800">AI Refined Prompt</h5>
+                        <p className="text-sm text-slate-600">{image.revisedPrompt}</p>
                       </div>
                     )}
                     
-                    <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                    <div className="flex flex-wrap gap-2 text-xs text-slate-500">
                       <span>Size: {image.size}</span>
                       <span>Quality: {image.quality}</span>
                       <span>Style: {image.style}</span>
@@ -288,15 +297,25 @@ export default function ImageGenerator({
                     <div className="flex gap-2">
                       <button
                         onClick={() => downloadImage(image.imageUrl, `ai-generated-${image.id}.png`)}
-                        className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+                        className="px-3 py-1 bg-gradient-to-r from-slate-800 to-slate-700 text-white text-sm rounded hover:from-slate-700 hover:to-slate-600 transition-colors"
                       >
-                        📥 Download
+                        <div className="flex items-center space-x-1">
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          <span>Download</span>
+                        </div>
                       </button>
                       <button
                         onClick={() => copyImageUrl(image.imageUrl)}
-                        className="px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700 transition-colors"
+                        className="px-3 py-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm rounded hover:from-emerald-600 hover:to-teal-600 transition-colors"
                       >
-                        🔗 Copy URL
+                        <div className="flex items-center space-x-1">
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                          <span>Copy URL</span>
+                        </div>
                       </button>
                     </div>
                   </div>
