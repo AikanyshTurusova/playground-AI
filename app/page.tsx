@@ -13,7 +13,7 @@ function HeroSection() {
               className="h-56 w-auto mb-4"
             />
             <h1 className="text-5xl md:text-7xl font-bold text-slate-800">
-              Welcome to PlayGround AI
+              Welcome to Knowledge Space
             </h1>
           </div>
           <p className="text-xl md:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto">

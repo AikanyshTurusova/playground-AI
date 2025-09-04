@@ -46,23 +46,21 @@ export async function POST(request: NextRequest) {
       model: completion.model,
     });
 
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('OpenAI API Error:', error);
     
-    if (error && typeof error === 'object' && 'status' in error) {
-      if (error.status === 401) {
-        return NextResponse.json(
-          { error: 'Invalid API key' },
-          { status: 401 }
-        );
-      }
-      
-      if (error.status === 429) {
-        return NextResponse.json(
-          { error: 'Rate limit exceeded' },
-          { status: 429 }
-        );
-      }
+    if (error.status === 401) {
+      return NextResponse.json(
+        { error: 'Invalid API key' },
+        { status: 401 }
+      );
+    }
+    
+    if (error.status === 429) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded' },
+        { status: 429 }
+      );
     }
 
     return NextResponse.json(
