@@ -2,6 +2,14 @@
 
 import { useState, useRef, useEffect } from 'react';
 
+// Extend the Window interface to include SpeechRecognition
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
 interface VoiceInputProps {
   onTranscript: (text: string) => void;
   disabled?: boolean;
@@ -12,7 +20,7 @@ export default function VoiceInput({ onTranscript, disabled = false, className =
   const [isRecording, setIsRecording] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     // Check if speech recognition is supported
@@ -28,7 +36,7 @@ export default function VoiceInput({ onTranscript, disabled = false, className =
         recognitionRef.current.lang = 'en-US';
 
         // Handle results
-        recognitionRef.current.onresult = (event) => {
+        recognitionRef.current.onresult = (event: any) => {
           let finalTranscript = '';
           let interimTranscript = '';
 
@@ -48,7 +56,7 @@ export default function VoiceInput({ onTranscript, disabled = false, className =
         };
 
         // Handle errors
-        recognitionRef.current.onerror = (event) => {
+        recognitionRef.current.onerror = (event: any) => {
           console.error('Speech recognition error:', event.error);
           setError(`Speech recognition error: ${event.error}`);
           setIsRecording(false);
@@ -129,10 +137,3 @@ export default function VoiceInput({ onTranscript, disabled = false, className =
   );
 }
 
-// Extend Window interface for TypeScript
-declare global {
-  interface Window {
-    SpeechRecognition: typeof SpeechRecognition;
-    webkitSpeechRecognition: typeof SpeechRecognition;
-  }
-}

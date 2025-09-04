@@ -55,7 +55,7 @@ export default function EditProfilePage() {
       await user.update({
         firstName: formData.firstName,
         lastName: formData.lastName,
-        publicMetadata: {
+        unsafeMetadata: {
           bio: formData.bio,
           website: formData.website,
           location: formData.location,

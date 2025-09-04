@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { jiraClient } from '../../../../../lib/jira';
+import { jiraClient } from '../../../../lib/jira';
 
 // Store invitations in memory (in production, use a database)
 const invitations = new Map<string, any>();
