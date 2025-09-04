@@ -27,7 +27,7 @@ export default function PrivacyPage() {
       ...prev,
       [category]: {
         ...prev[category as keyof typeof prev],
-        [setting]: !prev[category as keyof typeof prev][setting as keyof typeof prev[category as keyof typeof prev]]
+        [setting]: !(prev[category as keyof typeof prev] as any)[setting]
       }
     }));
   };
